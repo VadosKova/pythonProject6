@@ -120,3 +120,14 @@ class Registry:
 
         value_name = "test"
         value_data = "testData"
+
+        try:
+            parent_item = self.tree.parent(selected_item)
+            parent_key_name = self.tree.item(parent_item, "text")
+            parent_full_path = self.get_full_path(parent_key_name, folder_name)
+            key = winreg.OpenKey(getattr(winreg, parent_key_name), parent_full_path, 0, winreg.KEY_SET_VALUE)
+            winreg.SetValueEx(key, value_name, 0, winreg.REG_SZ, value_data)
+            messagebox.showinfo("INFO", f"Значение '{value_name}' записано")
+            winreg.CloseKey(key)
+        except Exception as e:
+            messagebox.showerror("Error", f"Не удалось записать значение: {str(e)}")
