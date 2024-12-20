@@ -24,3 +24,15 @@ class Registry:
         self.delete_folder_btn.pack(side="left", padx=10, pady=10)
 
         self.load_root_folders()
+
+    def load_root_folder(self):
+        roots = [
+            (winreg.HKEY_CLASSES_ROOT, "HKEY_CLASSES_ROOT"),
+            (winreg.HKEY_CURRENT_USER, "HKEY_CURRENT_USER"),
+            (winreg.HKEY_LOCAL_MACHINE, "HKEY_LOCAL_MACHINE"),
+            (winreg.HKEY_USERS, "HKEY_USERS"),
+            (winreg.HKEY_CURRENT_CONFIG, "HKEY_CURRENT_CONFIG")
+        ]
+
+        for root, name in roots:
+            self.tree.insert("", "end", name, text=name, open=True, tags=["root"])
