@@ -42,3 +42,15 @@ class Registry:
         if not selected_item:
             messagebox.showwarning("Warning", "Выберите ключ для открытия")
             return
+
+        selected_item = selected_item[0]
+        key_name = self.tree.item(selected_item, "text")
+
+        if key_name in ["HKEY_CLASSES_ROOT", "HKEY_CURRENT_USER", "HKEY_LOCAL_MACHINE", "HKEY_USERS",
+                        "HKEY_CURRENT_CONFIG"]:
+            self.load_subkeys(selected_item, getattr(winreg, key_name), "")
+        else:
+            parent_item = self.tree.parent(selected_item)
+            parent_key_name = self.tree.item(parent_item, "text")
+            parent_full_path = self.get_full_path(parent_key_name, key_name)
+            self.load_subkeys(selected_item, getattr(winreg, parent_key_name), parent_full_path)
