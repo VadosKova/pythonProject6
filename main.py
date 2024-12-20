@@ -97,3 +97,14 @@ class Registry:
         parent_key = self.tree.item(selected_item, "text")
 
         folder_name = "Test"
+
+        try:
+            if parent_key in ["HKEY_CLASSES_ROOT", "HKEY_CURRENT_USER", "HKEY_LOCAL_MACHINE", "HKEY_USERS",
+                              "HKEY_CURRENT_CONFIG"]:
+                key = winreg.OpenKey(getattr(winreg, parent_key), "")
+                winreg.CreateKey(key, folder_name)
+                messagebox.showinfo("INFO", f"Папка '{folder_name}' создана")
+                self.load_subkeys(selected_item, getattr(winreg, parent_key), parent_key)
+                winreg.CloseKey(key)
+        except Exception as e:
+            messagebox.showerror("Error", f"Не удалось создать папку: {str(e)}")
