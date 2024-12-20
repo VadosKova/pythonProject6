@@ -36,3 +36,9 @@ class Registry:
 
         for root, name in roots:
             self.tree.insert("", "end", name, text=name, open=True, tags=["root"])
+
+    def open_key(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showwarning("Warning", "Выберите ключ для открытия")
+            return
