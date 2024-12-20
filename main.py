@@ -78,3 +78,11 @@ class Registry:
                 winreg.CloseKey(key)
             except:
                 pass
+
+    def get_full_path(self, parent_key_name, folder_name):
+        if parent_key_name in ["HKEY_CLASSES_ROOT", "HKEY_CURRENT_USER", "HKEY_LOCAL_MACHINE", "HKEY_USERS",
+                               "HKEY_CURRENT_CONFIG"]:
+            return folder_name
+        else:
+            parent_path = self.tree.item(self.tree.parent(self.tree.selection()[0]), "text")
+            return parent_path + "\\" + folder_name
