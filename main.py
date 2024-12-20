@@ -108,3 +108,9 @@ class Registry:
                 winreg.CloseKey(key)
         except Exception as e:
             messagebox.showerror("Error", f"Не удалось создать папку: {str(e)}")
+
+    def write_value(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showwarning("Warning", "Сначала выберите папку")
+            return
