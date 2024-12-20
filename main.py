@@ -86,3 +86,9 @@ class Registry:
         else:
             parent_path = self.tree.item(self.tree.parent(self.tree.selection()[0]), "text")
             return parent_path + "\\" + folder_name
+
+    def create_folder(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showwarning("Warning", "Сначала выберите папку")
+            return
