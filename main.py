@@ -137,3 +137,26 @@ class Registry:
         if not selected_item:
             messagebox.showwarning("Warning", "Выберите папку для удаления")
             return
+
+        selected_item = selected_item[0]
+        folder_name = self.tree.item(selected_item, "text")
+
+        confirm = messagebox.askyesno("Удаление папки", f"Удалить '{folder_name}'?")
+        if confirm:
+            try:
+                parent_item = self.tree.parent(selected_item)
+                parent_key_name = self.tree.item(parent_item, "text")
+
+                parent_full_path = self.get_full_path(parent_key_name, folder_name)
+
+                key = winreg.OpenKey(getattr(winreg, parent_key_name), parent_full_path, 0, winreg.KEY_SET_VALUE)
+
+                winreg.DeleteKey(key, folder_name)
+                winreg.CloseKey(key)
+
+                messagebox.showinfo("INFO", f"Папка '{folder_name}' удалена")
+
+                self.load_subkeys(parent_item, getattr(winreg, parent_key_name), parent_full_path)
+
+            except Exception as e:
+                messagebox.showerror("Error", f"Не удалось удалить папку: {str(e)}")
