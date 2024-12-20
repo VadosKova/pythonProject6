@@ -25,7 +25,7 @@ class Registry:
 
         self.load_root_folders()
 
-    def load_root_folder(self):
+    def load_root_folders(self):
         roots = [
             (winreg.HKEY_CLASSES_ROOT, "HKEY_CLASSES_ROOT"),
             (winreg.HKEY_CURRENT_USER, "HKEY_CURRENT_USER"),
@@ -160,3 +160,9 @@ class Registry:
 
             except Exception as e:
                 messagebox.showerror("Error", f"Не удалось удалить папку: {str(e)}")
+
+
+root = Tk()
+reg = Registry(root)
+
+root.mainloop()
