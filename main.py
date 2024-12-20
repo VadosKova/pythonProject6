@@ -114,3 +114,9 @@ class Registry:
         if not selected_item:
             messagebox.showwarning("Warning", "Сначала выберите папку")
             return
+
+        selected_item = selected_item[0]
+        folder_name = self.tree.item(selected_item, "text")
+
+        value_name = "test"
+        value_data = "testData"
