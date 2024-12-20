@@ -54,3 +54,27 @@ class Registry:
             parent_key_name = self.tree.item(parent_item, "text")
             parent_full_path = self.get_full_path(parent_key_name, key_name)
             self.load_subkeys(selected_item, getattr(winreg, parent_key_name), parent_full_path)
+
+    def load_subkeys(self, parent, hive, subkey):
+        for item in self.tree.get_children(parent):
+            self.tree.delete(item)
+
+        try:
+            key = winreg.OpenKey(hive, subkey)
+            i = 0
+            while True:
+                try:
+                    subkey_name = winreg.EnumKey(key, i)
+                    self.tree.insert(parent, "end", subkey_name, text=subkey_name, open=False)
+                    i += 1
+                except OSError:
+                    break
+        except FileNotFoundError:
+            messagebox.showerror("Error", f"Ключ: {subkey} не найден")
+        except Exception as e:
+            messagebox.showerror("Error", f"Не удалось открыть ключ: {str(e)}")
+        finally:
+            try:
+                winreg.CloseKey(key)
+            except:
+                pass
