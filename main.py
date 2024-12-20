@@ -131,3 +131,9 @@ class Registry:
             winreg.CloseKey(key)
         except Exception as e:
             messagebox.showerror("Error", f"Не удалось записать значение: {str(e)}")
+
+    def delete_folder(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showwarning("Warning", "Выберите папку для удаления")
+            return
